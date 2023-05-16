@@ -98,5 +98,17 @@ runs:
             args="--register-disable-auto-version ${args}"
           fi
           latch register --yes ${args} 2>&1 | tee register.log
+          set -x
+          wc -l register.log
+          sleep 5
+          grep "Registering" register.log
+          sleep 5
+          grep "Registering" register.log | tail -1
+          sleep 5
+          grep "Registering" register.log | tail -1 | cut -f 2 -d ' '
+          sleep 5
+          grep "Registering" register.log | tail -1 | cut -f 2 -d ' ' | cut -f 2 -d ':'
+          sleep 5
           register_version=$(grep "Registering" register.log | tail -1 | cut -f 2 -d ' ' | cut -f 2 -d ':')
           echo "register-version=${register_version}" >> $GITHUB_OUTPUT
+          echo "register-version=${register_version}"
