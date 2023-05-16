@@ -99,6 +99,17 @@ runs:
           fi
           set -x
           latch register --yes ${args} 2>&1 | tee register.log
-          tail -n 50 register.log
+          tail -n 25 register.log
+          set +e
+          wc -l register.log
+          grep "^Registering" register.log 
+          grep "^Registering" register.log | cut -f 2 -d ' ' 
+          grep "^Registering" register.log | cut -f 2 -d ' ' | cut -f 2 -d ':')
           register_version=$(grep "^Registering" register.log | cut -f 2 -d ' ' | cut -f 2 -d ':')
+          exit_code=$?
+          echo $exit_code
+          set -e
+          if [ "$exit_code" != "0" ]; then
+          exit $exit_code;
+          fi
           echo "register-version=${register_version}" >> $GITHUB_OUTPUT
