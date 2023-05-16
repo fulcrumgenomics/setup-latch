@@ -73,7 +73,7 @@ runs:
       shell: bash
       run: |
         if [ "latest" == "${{ inputs.latch-version }}" ]; then
-          python3 -m pip install latch
+          python3 -m pip install --upgrade latch
         else
           python3 -m pip install latch==${{ inputs.latch-version }}
         fi
