@@ -14,7 +14,7 @@ Finally, the `latch` package is installed.
 ## Inputs and outputs
 
 For a full list of available _inputs_ and _outputs_ for this action see
-[action.yml](action.yml).
+[action.yaml](action.yaml).
 
 ## Usage example
 
