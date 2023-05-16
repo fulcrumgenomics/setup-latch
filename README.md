@@ -7,6 +7,7 @@ By default, this action will setup ssh config in `~/.ssh/config` for `latch` com
 
 The action will optional add the provided latch workspace identifier and token to `~/.latch/workspace` and `~/.latch/token` files respectively.
 This is used when registering your local workflow code to Latch (see the `register*` inputs).
+See https://console.latch.bio/settings/developer.
 
 Finally, the `latch` package is installed.
 

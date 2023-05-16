@@ -50,21 +50,21 @@ runs:
   using: "composite"
   steps:
     - id: setup-ssh-config 
+      if: ${{ inputs.ssh-config == 'true' }}
       shell: bash
-      if: ${{ inputs.ssh-config }} == 'true'
       run: |
         mkdir -p ~/.ssh
         echo 'Host *' >> ~/.ssh/config
         echo '    StrictHostKeyChecking no' >> ~/.ssh/config
         chmod 400 ~/.ssh/config
     - id: setup-workspace
+      if: ${{ inputs.latch-workspace != '' }}
       shell: bash
-      if: ${{ inputs.latch-workspace }} != ""
       run: |
         mkdir -p ~/.latch
         echo -n "${{ inputs.latch-workspace }}" > ~/.latch/workspace
     - id: setup-token
-      if: ${{ inputs.latch-token }} != ""
+      if: ${{ inputs.latch-token != '' }}
       shell: bash
       run: |
         mkdir -p ~/.latch
@@ -82,15 +82,15 @@ runs:
       run: |
         echo "latch-version=$(latch --version | cut -f 3 -d ' ')" >> $GITHUB_OUTPUT
     - id: latch-register
+      if: ${{ inputs.register == 'true' }}
       shell: bash
-      if: ${{ inputs.register }} == 'true'
       run: |
           eval `ssh-agent -s`
-          args=${{ inputs.register-pkg-root }}
-          if [ ${{ inputs.register-remote }} == "true" ]; then
+          args="${{ inputs.register-pkg-root }}"
+          if [ "${{ inputs.register-remote }}" == "true" ]; then
             args="--remote ${args}"
           fi
-          if [ ${{ inputs.register-register-disable-auto-version }} == "true" ]; then
+          if [ "${{ inputs.register-register-disable-auto-version }}" == "true" ]; then
             args="--register-disable-auto-version ${args}"
           fi
           latch register --yes ${args}

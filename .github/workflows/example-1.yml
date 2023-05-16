@@ -19,6 +19,6 @@ jobs:
         with:
           python-version: '3.10'
       - id: latch
-        uses: fulcrumgenomics/setup-latch@v1
+        uses: ./
       - run: echo latch version ${{ steps.latch.outputs.latch-version }}
         shell: bash
