@@ -1,0 +1,24 @@
+name: "Example 1: Basic usage"
+
+on:
+  pull_request:
+    branches:
+      - "*"
+  push:
+    branches:
+      - "develop"
+      - "main"
+
+jobs:
+  example-1:
+    runs-on: ubuntu-latest
+    name: Example 1
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+      - id: latch
+        uses: fulcrumgenomics/setup-latch@v1
+      - run: echo latch version ${{ steps.latch.outputs.latch-version }}
+        shell: bash
