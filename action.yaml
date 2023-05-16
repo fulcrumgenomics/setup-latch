@@ -1,0 +1,66 @@
+name: 'Setup Latch SDK'
+author: Nils Homer (@nh13)
+description: 'Set up Latch SDK'
+
+branding:
+  icon: "code"
+  color: "green"
+
+inputs:
+  latch-version:
+    description: 'The version of latch to install (see https://pypi.org/project/latch/).'
+    required: false
+    default: "latest"
+  latch-workspace:
+    description: 'Workspace id (see ~/.latch/workspace), typically numeric.'
+    required: false
+    default: ""
+  latch-token:
+    description: 'Latch token (see ~/.token). Please store this in a secret!'
+    required: false
+    default: ""
+  ssh-config:
+    desecription: "Set up the ~/.ssh directory."
+    default: true
+
+outputs:
+  latch-version:
+    description: "The installed latch version."
+    value: ${{ steps.latch-version.outputs.latch-version }}
+
+runs:
+  using: "composite"
+  steps:
+    - id: setup-ssh-config 
+      shell: bash
+      if: ${{ inputs.ssh-config }} == 'true'
+      run: |
+        mkdir -p ~/.ssh
+        echo 'Host *' >> ~/.ssh/config
+        echo '    StrictHostKeyChecking no' >> ~/.ssh/config
+        chmod 400 ~/.ssh/config
+    - id: setup-workspace
+      shell: bash
+      if: ${{ inputs.latch-workspace }} != ""
+      run: |
+        mkdir -p ~/.latch
+        echo -n "${{ inputs.latch-workspace }}" > ~/.latch/workspace
+    - id: setup-token
+      if: ${{ inputs.latch-token }} != ""
+      shell: bash
+      run: |
+        mkdir -p ~/.latch
+        echo -n "${{ inputs.latch-token }}" > ~/.latch/token
+    - id: install-latch
+      shell: bash
+      run: |
+        if [ "latest" == "${{ inputs.latch-version }}" ]; then
+          python3 -m pip install latch
+        else
+          python3 -m pip install latch==${{ inputs.latch-version }}
+        fi
+    - id: latch-version
+      shell: bash
+      run: |
+        echo "latch-version=$(latch --version | cut -f 3 -d ' ')" >> $GITHUB_OUTPUT
+
