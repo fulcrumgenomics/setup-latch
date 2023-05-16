@@ -1,9 +1,17 @@
 # CHANGELOG
 
+## [v1.0.3] (2023-05-15)
+
+- Update name from "Setup Latch SDK" to "Setup Latch"
+
+[v1.0.3]: https://github.com/fulcrumgenomics/setup-latch/releases/tag/v1.0.3
+
 ## [v1.0.2] (2023-05-15)
 
 - [#1] Add the ability to register your local workflow. Add a github workflow
   for Example 1.
+
+[v1.0.2]: https://github.com/fulcrumgenomics/setup-latch/releases/tag/v1.0.2
 
 ## [v1.0.1] (2023-05-15)
 
