@@ -20,6 +20,8 @@ For a full list of available _inputs_ and _outputs_ for this action see
 
 ### Example 1: Basic usage
 
+[![Example 1: Basic usage](https://github.com/fulcrumgenomics/setup-latch/actions/workflows/example-1.yml/badge.svg)](https://github.com/fulcrumgenomics/setup-latch/actions/workflows/example-1.yml)
+
 This example shows how to install the latest version of `latch` and echo the version installed.
 
 ```yaml
