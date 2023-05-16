@@ -97,6 +97,8 @@ runs:
           if [ "${{ inputs.register-register-disable-auto-version }}" == "true" ]; then
             args="--register-disable-auto-version ${args}"
           fi
+          set -x
           latch register --yes ${args} 2>&1 | tee register.log
+          tail -n 50 register.log
           register_version=$(grep "^Registering" register.log | cut -f 2 -d ' ' | cut -f 2 -d ':')
           echo "register-version=${register_version}" >> $GITHUB_OUTPUT
