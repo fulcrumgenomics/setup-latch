@@ -20,8 +20,26 @@ inputs:
     required: false
     default: ""
   ssh-config:
-    desecription: "Set up the ~/.ssh directory."
+    description: "Set up the ~/.ssh directory."
+    required: false
     default: true
+  register:
+    description: "Register repository workflow code to Latch. Visit docs.latch.bio to learn more."
+    required: false
+    default: false
+  register-pkg-root:
+    description: "The relative path to the root of the package to register"
+    required: false
+    default: "."
+  register-remote:
+    description: "Use a remote server to build workflow."
+    required: false
+    default: true
+  register-disable-auto-version:
+    description: "Whether to automatically bump the version of the workflow each time register is called."
+    required: false
+    default: false
+
 
 outputs:
   latch-version:
@@ -63,4 +81,17 @@ runs:
       shell: bash
       run: |
         echo "latch-version=$(latch --version | cut -f 3 -d ' ')" >> $GITHUB_OUTPUT
+    - id: latch-register
+      shell: bash
+      if: ${{ inputs.register }} == 'true'
+      run: |
+          eval `ssh-agent -s`
+          args=${{ inputs.register-pkg-root }}
+          if [ ${{ inputs.register-remote }} == "true" ]; then
+            args="--remote ${args}"
+          fi
+          if [ ${{ inputs.register-register-disable-auto-version }} == "true" ]; then
+            args="--register-disable-auto-version ${args}"
+          fi
+          latch register --yes ${args}
 
