@@ -1,6 +1,14 @@
 # CHANGELOG
 
-## [v1.0.4] (2023-05-15)
+## [v1.0.5] (2023-05-16)
+
+
+- [#7]: Upgrade latch when using the latest version
+- [#5]: Fix link to the action.yaml in the README
+
+[v1.0.5]: https://github.com/fulcrumgenomics/setup-latch/releases/tag/v1.0.5
+
+## [v1.0.4] (2023-05-15):
 
 - [#2] Bugfix: fix all `if` conditions in actions.yaml
 
