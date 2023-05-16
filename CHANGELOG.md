@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## [v1.0.4] (2023-05-15)
+
+- [#2] Bugfix: fix all `if` conditions in actions.yaml
+
+[v1.0.4]: https://github.com/fulcrumgenomics/setup-latch/releases/tag/v1.0.4
+
 ## [v1.0.3] (2023-05-15)
 
 - Update name from "Setup Latch SDK" to "Setup Latch"
