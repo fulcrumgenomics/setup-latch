@@ -47,7 +47,7 @@ outputs:
     value: ${{ steps.latch-version.outputs.latch-version }}
   register-version:
     description: "The workflow version that was registered"
-    value: ${{ steps.latch-version.outputs.register-version }}
+    value: ${{ steps.latch-register.outputs.register-version }}
 
 
 runs:
