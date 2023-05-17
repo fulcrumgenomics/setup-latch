@@ -1,7 +1,12 @@
 # CHANGELOG
 
-## [v1.0.5] (2023-05-16)
+## [v1.0.6] (2023-05-16)
 
+- [#6] Add register-version to the outputs
+
+[v1.0.6]: https://github.com/fulcrumgenomics/setup-latch/releases/tag/v1.0.6
+
+## [v1.0.5] (2023-05-16)
 
 - [#7]: Upgrade latch when using the latest version
 - [#5]: Fix link to the action.yaml in the README
