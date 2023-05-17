@@ -45,6 +45,10 @@ outputs:
   latch-version:
     description: "The installed latch version."
     value: ${{ steps.latch-version.outputs.latch-version }}
+  register-version:
+    description: "The workflow version that was registered"
+    value: ${{ steps.latch-register.outputs.register-version }}
+
 
 runs:
   using: "composite"
@@ -93,5 +97,7 @@ runs:
           if [ "${{ inputs.register-register-disable-auto-version }}" == "true" ]; then
             args="--register-disable-auto-version ${args}"
           fi
-          latch register --yes ${args}
-
+          latch register --yes ${args} 2>&1 | tee register.log  
+          register_version=$(grep "Registering" register.log | tail -1 | cut -f 2 -d ' ' | cut -f 2 -d ':')
+          echo "register-version=${register_version}" >> $GITHUB_OUTPUT
+          echo Registered version "${register_version}".

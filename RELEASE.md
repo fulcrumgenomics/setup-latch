@@ -2,7 +2,6 @@
 
 - Ensure the [CHANGELOG](./CHANGELOG.md) is up-to-date.
 
-
 - If this release is a major version, update all the example YAML in the
   [README](./README.md), e.g. `2.0.0` would need `@v1` -> `@v2`.
 
