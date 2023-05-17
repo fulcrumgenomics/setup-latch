@@ -62,6 +62,6 @@ jobs:
             workspace: ${{ secrets.LATCH_WORKSPACE }}
             token: ${{ secrets.LATCH_TOKEN }}
             register: true
-      - run: echo latch version ${{ steps.latch.outputs.latch-version }}
+      - run: echo latch version ${{ steps.latch.outputs.register-version }}
         shell: bash
 ```
