@@ -19,6 +19,8 @@ jobs:
         with:
           python-version: '3.10'
       - id: latch
+        name: Install Latch
         uses: ./
       - run: echo latch version ${{ steps.latch.outputs.latch-version }}
+        name: Print latch version
         shell: bash

@@ -107,7 +107,7 @@ runs:
           register_version=$(grep "Registering" register.log | tail -1 | cut -f 2 -d ' ' | cut -f 2 -d ':')
           echo "register-version=${register_version}" >> $GITHUB_OUTPUT
     - id: after-latch-register
-      if: (${{ inputs.register == 'true' }})
+      if: ${{ inputs.register == 'true' }}
       shell: bash
       run: |
           # Deal with successful registration
