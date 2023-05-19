@@ -57,7 +57,8 @@ outputs:
 runs:
   using: "composite"
   steps:
-    - id: setup-ssh-config 
+    - id: setup-ssh-config
+      name: Setup SSH Config
       if: ${{ inputs.ssh-config == 'true' }}
       shell: bash
       run: |
@@ -66,18 +67,21 @@ runs:
         echo '    StrictHostKeyChecking no' >> ~/.ssh/config
         chmod 400 ~/.ssh/config
     - id: setup-workspace
+      name: Setup the Latch Workspace
       if: ${{ inputs.latch-workspace != '' }}
       shell: bash
       run: |
         mkdir -p ~/.latch
         echo -n "${{ inputs.latch-workspace }}" > ~/.latch/workspace
     - id: setup-token
+      name: Setup the Latch Token
       if: ${{ inputs.latch-token != '' }}
       shell: bash
       run: |
         mkdir -p ~/.latch
         echo -n "${{ inputs.latch-token }}" > ~/.latch/token
     - id: install-latch
+      name: Install Latch
       shell: bash
       run: |
         if [ "latest" == "${{ inputs.latch-version }}" ]; then
@@ -86,10 +90,12 @@ runs:
           python3 -m pip install latch==${{ inputs.latch-version }}
         fi
     - id: latch-version
+      name: Get the installed Latch version
       shell: bash
       run: |
         echo "latch-version=$(latch --version | cut -f 3 -d ' ')" >> $GITHUB_OUTPUT
     - id: latch-register
+      name: Register the Workflow on Latch
       if: ${{ inputs.register == 'true' }}
       shell: bash
       continue-on-error: true
@@ -107,6 +113,7 @@ runs:
           register_version=$(grep "Registering" register.log | tail -1 | cut -f 2 -d ' ' | cut -f 2 -d ':')
           echo "register-version=${register_version}" >> $GITHUB_OUTPUT
     - id: after-latch-register
+      name: Post-process Latch Workflow Registration
       if: ${{ inputs.register == 'true' }}
       shell: bash
       run: |
