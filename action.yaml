@@ -101,3 +101,6 @@ runs:
           register_version=$(grep "Registering" register.log | tail -1 | cut -f 2 -d ' ' | cut -f 2 -d ':')
           echo "register-version=${register_version}" >> $GITHUB_OUTPUT
           echo Registered version "${register_version}".
+    - id: echo-registered-version
+      run: echo Registered version ${{ steps.latch-registe.outputs.latch-version }}
+      shell: bash
