@@ -112,7 +112,7 @@ runs:
       run: |
           # Deal with successful registration
           if [[ "${{ steps.latch-register.outcome }}" == "success" ]]; then
-             echo Registered version ${{ steps.latch-register.outputs.latch-version }}
+             echo Registered version ${{ steps.latch-register.outputs.register-version }}
              echo "already-registered=false" >> $GITHUB_OUTPUT
              exit 0
           fi
