@@ -135,7 +135,8 @@ runs:
           else
             echo "No .latch_report.tar.gz found! Continuing..."
           fi  
-          
+          # Turn this off so grep works
+          set +eo pipefail
           # Find the line in the log to start printing from.
           pattern="Unable to register workflow";
           result=$(grep "${pattern}" "register.log" || echo "");
