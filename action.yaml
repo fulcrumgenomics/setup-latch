@@ -129,11 +129,11 @@ runs:
           already_registered="false"
           
           # Print environment information (e.g. installed latch version, OS, etc.)
-          if [ -f .latch-report.tag.gz ]; then
+          if [ -f .latch-report.tar.gz ]; then
             echo "Printing environment information:"
             tar -Ozxvf .latch_report.tar.gz metadata.json 2>/dev/null
           else
-            echo "No .latch_report.tag.gz found! Continuing..."
+            echo "No .latch_report.tar.gz found! Continuing..."
           fi  
           
           # Find the line in the log to start printing from.
