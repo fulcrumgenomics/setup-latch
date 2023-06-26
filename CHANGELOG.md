@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## [v1.0.7] (2023-06-26)
+
+- [#8] Update example 2 in the README
+- [#12] Add post-latch registration step
+- [#14] Update ssh permissions in action 
+
 ## [v1.0.6] (2023-05-16)
 
 - [#6] Add register-version to the outputs
