@@ -53,14 +53,14 @@ outputs:
 runs:
   using: "composite"
   steps:
-    - id: setup-ssh-config 
+    - id: setup-ssh-config
       if: ${{ inputs.ssh-config == 'true' }}
       shell: bash
       run: |
         mkdir -p ~/.ssh
         echo 'Host *' >> ~/.ssh/config
         echo '    StrictHostKeyChecking no' >> ~/.ssh/config
-        chmod 400 ~/.ssh/config
+        chmod 600 ~/.ssh/config
     - id: setup-workspace
       if: ${{ inputs.latch-workspace != '' }}
       shell: bash
@@ -97,7 +97,7 @@ runs:
           if [ "${{ inputs.register-register-disable-auto-version }}" == "true" ]; then
             args="--register-disable-auto-version ${args}"
           fi
-          latch register --yes ${args} 2>&1 | tee register.log  
+          latch register --yes ${args} 2>&1 | tee register.log
           register_version=$(grep "Registering" register.log | tail -1 | cut -f 2 -d ' ' | cut -f 2 -d ':')
           echo "register-version=${register_version}" >> $GITHUB_OUTPUT
           echo Registered version "${register_version}".
