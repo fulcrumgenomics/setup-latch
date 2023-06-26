@@ -65,7 +65,7 @@ runs:
         mkdir -p ~/.ssh
         echo 'Host *' >> ~/.ssh/config
         echo '    StrictHostKeyChecking no' >> ~/.ssh/config
-        chmod 400 ~/.ssh/config
+        chmod 600 ~/.ssh/config
     - id: setup-workspace
       name: Setup the Latch Workspace
       if: ${{ inputs.latch-workspace != '' }}
