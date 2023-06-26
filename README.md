@@ -50,7 +50,7 @@ In this example, they are stored as [encrypted secrets](https://docs.github.com/
 jobs:
   setup-latch-job:
     runs-on: ubuntu-latest
-    name: A job to setup latch
+    name: A job to register a latch workflow
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-python@v4
@@ -62,6 +62,6 @@ jobs:
             workspace: ${{ secrets.LATCH_WORKSPACE }}
             token: ${{ secrets.LATCH_TOKEN }}
             register: true
-      - run: echo latch version ${{ steps.latch.outputs.latch-version }}
+      - run: echo latch version ${{ steps.latch.outputs.register-version }}
         shell: bash
 ```
