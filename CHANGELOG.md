@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## [v1.0.8] (2023-11-12)
+
+- [#15] Fix registered version
+
 ## [v1.0.7] (2023-06-26)
 
 - [#8] Update example 2 in the README
