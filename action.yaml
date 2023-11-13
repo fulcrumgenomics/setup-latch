@@ -110,7 +110,7 @@ runs:
           fi
           latch register --yes ${args} 2>&1 | tee register.log
           # save registered version; this may not occur if the above register fails
-          register_version=$(grep "Registering" register.log | tail -1 | cut -f 2 -d ' ' | cut -f 2 -d ':')
+          register_version=$(grep "Registering" register.log | tail -1 | awk '{print $NF}' | cut -f 2 -d ':')
           echo "register-version=${register_version}" >> $GITHUB_OUTPUT
     - id: after-latch-register
       name: Post-process Latch Workflow Registration
