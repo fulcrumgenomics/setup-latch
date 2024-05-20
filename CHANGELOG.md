@@ -1,14 +1,25 @@
 # CHANGELOG
 
+## [v1.1.0] (2024-05-20)
+
+- [#18] Support registering a Snakefile for Snakemake
+- [#18] Fix disabling the auto version register option
+
+[v1.1.0]: https://github.com/fulcrumgenomics/setup-latch/releases/tag/v1.1.0
+
 ## [v1.0.8] (2023-11-12)
 
 - [#15] Fix registered version
+
+[v1.0.8]: https://github.com/fulcrumgenomics/setup-latch/releases/tag/v1.0.8
 
 ## [v1.0.7] (2023-06-26)
 
 - [#8] Update example 2 in the README
 - [#12] Add post-latch registration step
 - [#14] Update ssh permissions in action 
+
+[v1.0.7]: https://github.com/fulcrumgenomics/setup-latch/releases/tag/v1.0.7
 
 ## [v1.0.6] (2023-05-16)
 
