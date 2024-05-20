@@ -148,7 +148,7 @@ runs:
             echo "Error: local registration is not working in latch-cli! ❌"
             exit 1;
           fi
-          if [ "${{ inputs.register-register-disable-auto-version }}" == "true" ]; then
+          if [ "${{ inputs.register-disable-auto-version }}" == "true" ]; then
             args="--register-disable-auto-version ${args}"
           fi
           if [ "${{ inputs.mark-as-release }}" == "true" ]; then
