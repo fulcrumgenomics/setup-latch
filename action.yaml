@@ -109,7 +109,7 @@ runs:
           if [ "${{ inputs.register-remote }}" == "true" ]; then
             args="--remote ${args}"
           fi
-          if [ "${{ inputs.register-register-disable-auto-version }}" == "true" ]; then
+          if [ "${{ inputs.register-disable-auto-version }}" == "true" ]; then
             args="--register-disable-auto-version ${args}"
           fi
           if [ "${{ inputs.register-snakefile }}" != "" ]; then
