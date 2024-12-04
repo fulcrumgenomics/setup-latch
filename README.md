@@ -27,7 +27,7 @@ This example shows how to install the latest version of `latch` and echo the ver
 ```yaml
 jobs:
   setup-latch-job:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     name: A job to setup latch
     steps:
       - uses: actions/checkout@v3
@@ -49,7 +49,7 @@ In this example, they are stored as [encrypted secrets](https://docs.github.com/
 ```yaml
 jobs:
   setup-latch-job:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     name: A job to register a latch workflow
     steps:
       - uses: actions/checkout@v3
