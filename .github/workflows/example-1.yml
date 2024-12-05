@@ -11,7 +11,7 @@ on:
 
 jobs:
   example-1:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     name: Example 1
     steps:
       - uses: actions/checkout@v3
