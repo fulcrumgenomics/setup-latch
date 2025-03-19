@@ -53,7 +53,7 @@ jobs:
         with:
           python-version: '3.10'
       - id: latch
-        uses: fulcrumgenomics/setup-latch@v1
+        uses: fulcrumgenomics/setup-latch@v2
       - run: echo latch version ${{ steps.latch.outputs.latch-version }}
         shell: bash
 ```
@@ -75,7 +75,7 @@ jobs:
         with:
           python-version: '3.10'
       - id: latch
-        uses: fulcrumgenomics/setup-latch@v1
+        uses: fulcrumgenomics/setup-latch@v2
         with:
             workspace: ${{ secrets.LATCH_WORKSPACE }}
             token: ${{ secrets.LATCH_TOKEN }}

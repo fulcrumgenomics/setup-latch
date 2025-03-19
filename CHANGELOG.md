@@ -1,5 +1,17 @@
 # CHANGELOG
 
+## [v2.0.0] (2025-03-18)
+
+This release provides upport for latch 2.57.2 and later.  Earlier releases of latch may work, but are unsupported.
+
+* [#26] Disable local registration (`register-remote: false`).  See: https://github.com/latchbio/latch/issues/534.
+* [#26] Fix `register-remote: false` (requires --no-remote).  In latch 2.19.7, `latch register --remote` became the default.
+* [#26] Update the pattern to match log for already registered workflows.  This matches latch 2.57.2 and above.
+* [#26] Add a GHA to test registration
+* [#26] Install latch prior to tests
+
+[v2.0.0]: https://github.com/fulcrumgenomics/setup-latch/releases/tag/v2.0.0
+
 ## [v1.1.2] (2025-03-18)
 
 * [24] update location of the banner
