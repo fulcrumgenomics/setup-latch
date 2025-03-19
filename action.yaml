@@ -89,7 +89,7 @@ runs:
       name: Install Latch
       shell: bash
       run: |
-        echo "::group::my  Installing latch...🚦"
+        echo "::group::Installing latch...🚦"
         if [ "latest" == "${{ inputs.latch-version }}" ]; then
           python3 -m pip install --upgrade latch
         else
@@ -115,7 +115,7 @@ runs:
           if [ "${{ inputs.register-register-disable-auto-version }}" == "true" ]; then
             args="--register-disable-auto-version ${args}"
           fi
-          echo "::group::my registering workflow 🚦"
+          echo "::group::Registering workflow 🚦"
           latch register --yes ${args} 2>&1 | tee register.log
           # save registered version; this may not occur if the above register fails
           register_version=$(grep "Registering" register.log | tail -1 | awk '{print $NF}' | cut -f 2 -d ':')
@@ -139,7 +139,7 @@ runs:
           
           # Print environment information (e.g. installed latch version, OS, etc.)
           if [ -f .latch-report.tar.gz ]; then
-            echo "::group::my Printing environment information! ℹ️ "
+            echo "::group::Printing environment information! ℹ️ "
             tar -Ozxvf .latch_report.tar.gz metadata.json 2>/dev/null
             echo "::endgroup::"
           else
@@ -151,7 +151,7 @@ runs:
           pattern="Unable to register workflow";
           result=$(grep "${pattern}" "register.log" || echo "");
           echo -e "${spacer_line}"
-          echo "::group::my Printing error traceback"
+          echo "::group::Printing error traceback"
           if [[ "${result}" == "" ]]; then
             # If no such line exists, then just print the last forty lines
             tail -n 40 "register.log";
