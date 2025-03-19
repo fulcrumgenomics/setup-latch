@@ -107,7 +107,9 @@ runs:
       shell: bash
       run: |
         echo "::group::Getting installed latch version...🚦"
-        echo "latch-version=$(latch --version | cut -f 3 -d ' ')" >> $GITHUB_OUTPUT
+        LATCH_VERSION=$(latch --version | cut -f 3 -d ' ')
+        echo "latch-version=${LATCH_VERSION}" >> $GITHUB_OUTPUT
+        echo "latch version: ${LATCH_VERSION}"
         echo "::endgroup::"
     - id: latch-register
       name: Register the Workflow on Latch
