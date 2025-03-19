@@ -1,0 +1,112 @@
+name: "Test: latch register"
+
+on:
+  pull_request:
+    branches:
+      - "*"
+  push:
+    branches:
+      - "develop"
+      - "main"
+
+concurrency:
+  group: latch-register-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  register:
+    runs-on: ubuntu-24.04
+    name: "Test: latch register"
+    environment: github-actions-register
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      # Tests vanilla register
+      - name: update wf version
+        run: echo "$(git rev-parse HEAD)-1" > ./tests/test-setup-latch-register/version
+      - id: latch
+        name: test remote registration succeeds
+        uses: ./
+        with:
+          register: true
+          latch-workspace: ${{ secrets.LATCH_WORKSPACE }}
+          latch-token: ${{ secrets.LATCH_TOKEN }}
+          register-pkg-root: ./tests/test-setup-latch-register
+      - name: Print outputs
+        shell: bash
+        run: |
+          echo latch-version: ${{ steps.latch.outputs.latch-version }}
+          echo register-version: ${{ steps.latch.outputs.register-version }}
+          echo already-registered: ${{ steps.latch.outputs.already-registered }}
+      - name: check already-registered
+        shell: bash
+        run: |
+          if [[ "${{ steps.latch.outputs.already-registered }}" == "true" ]]; then
+            echo "Error: workflow was already registered";
+            exit 1;
+          fi
+          rm -v tests/test-setup-latch-register/.latch/Dockerfile
+
+      # Tests using register-remote false
+      - name: update wf version
+        run: echo "$(git rev-parse HEAD)-2" > ./tests/test-setup-latch-register/version
+      - id: register-remote
+        name: test local registration succeeds
+        uses: ./
+        with:
+          register: true
+          latch-workspace: ${{ secrets.LATCH_WORKSPACE }}
+          latch-token: ${{ secrets.LATCH_TOKEN }}
+          register-pkg-root: ./tests/test-setup-latch-register
+          register-remote: false
+      - name: check already-registered
+        shell: bash
+        run: |
+          if [[ "${{ steps.register-remote.outputs.already-registered }}" == "true" ]]; then
+            echo "Error: workflow was not already registered with 'already-registered-do-not-fail: false'";
+            exit 1;
+          fi
+          rm -v tests/test-setup-latch-register/.latch/Dockerfile
+
+      # Tests already-registered-do-not-fail=true succeeds
+      - id: already-registered-do-not-fail-true
+        name: test already-registered-do-not-fail=true should succeed
+        uses: ./
+        with:
+          register: true
+          latch-workspace: ${{ secrets.LATCH_WORKSPACE }}
+          latch-token: ${{ secrets.LATCH_TOKEN }}
+          register-pkg-root: ./tests/test-setup-latch-register
+          already-registered-do-not-fail: true
+      - name: check already-registered
+        shell: bash
+        run: |
+          if [[ "${{ steps.already-registered-do-not-fail-true.outputs.already-registered }}" == "false" ]]; then
+            echo "Error: workflow was not already registered with 'already-registered-do-not-fail: true'";
+            exit 1;
+          fi
+
+      # Tests already-registered-do-not-fail=false fails
+      - id: already-registered-do-not-fail-false
+        name: test already-registered-do-not-fail=false should fail
+        continue-on-error: true
+        uses: ./
+        with:
+          register: true
+          latch-workspace: ${{ secrets.LATCH_WORKSPACE }}
+          latch-token: ${{ secrets.LATCH_TOKEN }}
+          register-pkg-root: ./tests/test-setup-latch-register
+          already-registered-do-not-fail: false
+      - id: already-registered-do-not-fail-false-check-outcome
+        run: |
+          if [[ "${{ steps.already-registered-do-not-fail-false.outputs.already-registered }}" == "false" ]]; then
+            echo "Error: workflow was not already registered with 'already-registered-do-not-fail: false'";
+            exit 1;
+          fi
+          if [[ "${{ steps.already-registered-do-not-fail-false.outcome }}" != "failure" ]]; then
+            echo "Error: registration existing workflow did not fail with 'already-registered-do-not-fail: false'";
+            exit 1;
+          fi
