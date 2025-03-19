@@ -177,7 +177,7 @@ runs:
           echo "::endgroup::"
           
           # check if already registered
-          pattern="has already been registered."
+          pattern="already exists. Make sure that you've saved any changes you made."
           result=$(grep "${pattern}" "register.log" || echo "");
           if [[ "${result}" != "" ]]; then
             already_registered="true"
