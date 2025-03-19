@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## [v1.1.1] (2025-03-18)
+
+* [#21] migrate ubuntu-latest to ubuntu-24.04
+* [#22] add fulcrum genomics more prominently
+* [#23] add banner, better logging, and log grouping
+
+[v1.1.1]: https://github.com/fulcrumgenomics/setup-latch/releases/tag/v1.1.1
+
 ## [v1.1.0] (2024-05-20)
 
 * [#18] Support snakemake and fix disable auto version
