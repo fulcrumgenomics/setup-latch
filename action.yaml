@@ -122,6 +122,8 @@ runs:
           args="${{ inputs.register-pkg-root }}"
           if [ "${{ inputs.register-remote }}" == "true" ]; then
             args="--remote ${args}"
+          else
+            args="--no-remote ${args}"
           fi
           if [ "${{ inputs.register-register-disable-auto-version }}" == "true" ]; then
             args="--register-disable-auto-version ${args}"
