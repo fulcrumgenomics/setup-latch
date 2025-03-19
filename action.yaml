@@ -67,24 +67,30 @@ runs:
       if: ${{ inputs.ssh-config == 'true' }}
       shell: bash
       run: |
+        echo "::group::Setting up SSH config...🚦"
         mkdir -p ~/.ssh
         echo 'Host *' >> ~/.ssh/config
         echo '    StrictHostKeyChecking no' >> ~/.ssh/config
         chmod 600 ~/.ssh/config
+        echo "::endgroup::"
     - id: setup-workspace
       name: Setup the Latch Workspace
       if: ${{ inputs.latch-workspace != '' }}
       shell: bash
       run: |
+        echo "::group::Setting up latch workspace...🚦"
         mkdir -p ~/.latch
         echo -n "${{ inputs.latch-workspace }}" > ~/.latch/workspace
+        echo "::endgroup::"
     - id: setup-token
       name: Setup the Latch Token
       if: ${{ inputs.latch-token != '' }}
       shell: bash
       run: |
+        echo "::group::Setting up latch token...🚦"
         mkdir -p ~/.latch
         echo -n "${{ inputs.latch-token }}" > ~/.latch/token
+        echo "::endgroup::"
     - id: install-latch
       name: Install Latch
       shell: bash
@@ -100,13 +106,16 @@ runs:
       name: Get the installed Latch version
       shell: bash
       run: |
+        echo "::group::Getting installed latch version...🚦"
         echo "latch-version=$(latch --version | cut -f 3 -d ' ')" >> $GITHUB_OUTPUT
+        echo "::endgroup::"
     - id: latch-register
       name: Register the Workflow on Latch
       if: ${{ inputs.register == 'true' }}
       shell: bash
       continue-on-error: true
       run: |
+          echo "::group::Registering workflow 🚦"
           eval `ssh-agent -s`
           args="${{ inputs.register-pkg-root }}"
           if [ "${{ inputs.register-remote }}" == "true" ]; then
@@ -115,7 +124,6 @@ runs:
           if [ "${{ inputs.register-register-disable-auto-version }}" == "true" ]; then
             args="--register-disable-auto-version ${args}"
           fi
-          echo "::group::Registering workflow 🚦"
           latch register --yes ${args} 2>&1 | tee register.log
           # save registered version; this may not occur if the above register fails
           register_version=$(grep "Registering" register.log | tail -1 | awk '{print $NF}' | cut -f 2 -d ':')
