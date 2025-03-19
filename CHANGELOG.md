@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## [v1.1.2] (2025-03-18)
+
+* [24] update location of the banner
+
+[v1.1.1]: https://github.com/fulcrumgenomics/setup-latch/releases/tag/v1.1.1
+
 ## [v1.1.1] (2025-03-18)
 
 * [#21] migrate ubuntu-latest to ubuntu-24.04
