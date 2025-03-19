@@ -124,6 +124,9 @@ runs:
             args="--remote ${args}"
           else
             args="--no-remote ${args}"
+            echo "See: https://github.com/latchbio/latch/issues/534"
+            echo "Error: local registration is not working in latch-cli! ❌"
+            exit 1;
           fi
           if [ "${{ inputs.register-register-disable-auto-version }}" == "true" ]; then
             args="--register-disable-auto-version ${args}"

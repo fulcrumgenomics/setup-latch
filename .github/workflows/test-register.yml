@@ -41,7 +41,7 @@ jobs:
           echo latch-version: ${{ steps.latch.outputs.latch-version }}
           echo register-version: ${{ steps.latch.outputs.register-version }}
           echo already-registered: ${{ steps.latch.outputs.already-registered }}
-      - name: check already-registered
+      - name: check already registered
         shell: bash
         run: |
           if [[ "${{ steps.latch.outputs.already-registered }}" == "true" ]]; then
@@ -50,11 +50,15 @@ jobs:
           fi
           rm -v tests/test-setup-latch-register/.latch/Dockerfile
 
+      # FIXME: update this test when https://github.com/latchbio/latch/issues/534 is fixed
       # Tests using register-remote false
-      - name: update wf version
-        run: echo "$(git rev-parse HEAD)-2" > ./tests/test-setup-latch-register/version
+      # FIXME: uncomment me when local registration works
+      #- name: update wf version
+      #  run: echo "$(git rev-parse HEAD)-2" > ./tests/test-setup-latch-register/version
       - id: register-remote
-        name: test local registration succeeds
+        name: test local registration fails
+        # FIXME: remove me when local registration works
+        continue-on-error: true
         uses: ./
         with:
           register: true
@@ -62,14 +66,20 @@ jobs:
           latch-token: ${{ secrets.LATCH_TOKEN }}
           register-pkg-root: ./tests/test-setup-latch-register
           register-remote: false
-      - name: check already-registered
+      - name: check failure
         shell: bash
         run: |
-          if [[ "${{ steps.register-remote.outputs.already-registered }}" == "true" ]]; then
-            echo "Error: workflow was not already registered with 'already-registered-do-not-fail: false'";
+          # FIXME: remove me when local registration works
+          if [[ "${{ steps.register-remote.outcome }}" != "failure" ]]; then
+            echo "Error: local registration did not fail'";
+            echo "Is https://github.com/latchbio/latch/issues/534 fixed?";
             exit 1;
           fi
-          rm -v tests/test-setup-latch-register/.latch/Dockerfile
+          # FIXME: uncomment me when local registration works
+          #if [[ "${{ steps.register-remote.outputs.already-registered }}" == "true" ]]; then
+          #  echo "Error: workflow was not already registered with 'already-registered-do-not-fail: false'";
+          #  exit 1;
+          #fi
 
       # Tests already-registered-do-not-fail=true succeeds
       - id: already-registered-do-not-fail-true
@@ -81,7 +91,7 @@ jobs:
           latch-token: ${{ secrets.LATCH_TOKEN }}
           register-pkg-root: ./tests/test-setup-latch-register
           already-registered-do-not-fail: true
-      - name: check already-registered
+      - name: check already registered
         shell: bash
         run: |
           if [[ "${{ steps.already-registered-do-not-fail-true.outputs.already-registered }}" == "false" ]]; then
@@ -100,7 +110,7 @@ jobs:
           latch-token: ${{ secrets.LATCH_TOKEN }}
           register-pkg-root: ./tests/test-setup-latch-register
           already-registered-do-not-fail: false
-      - id: already-registered-do-not-fail-false-check-outcome
+      - name: check already registered failure
         run: |
           if [[ "${{ steps.already-registered-do-not-fail-false.outputs.already-registered }}" == "false" ]]; then
             echo "Error: workflow was not already registered with 'already-registered-do-not-fail: false'";
