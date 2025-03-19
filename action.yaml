@@ -61,7 +61,7 @@ runs:
       name: Print Banner
       shell: bash
       run: |
-        cat ./banner.txt
+        cat ${GITHUB_ACTION_PATH}/banner.txt
     - id: setup-ssh-config
       name: Setup SSH Config
       if: ${{ inputs.ssh-config == 'true' }}
