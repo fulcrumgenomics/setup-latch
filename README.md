@@ -34,7 +34,7 @@ Finally, the `latch` package is installed.
 For a full list of available _inputs_ and _outputs_ for this action see
 [action.yaml](action.yaml).
 
-## Usage example
+## Usage
 
 ### Example 1: Basic usage
 
@@ -83,3 +83,54 @@ jobs:
       - run: echo latch version ${{ steps.latch.outputs.register-version }}
         shell: bash
 ```
+
+<!-- start usage -->
+
+### Inputs
+
+```yaml
+- uses: fulcrumgenomics/gha-timer@v1
+  with:
+    # The version of latch to install (see https://pypi.org/project/latch/).
+    # Default: latest
+    latch-version: ''
+
+    # Workspace id (see ~/.latch/workspace), typically numeric.
+    # Default: 
+    latch-workspace: ''
+
+    # Latch token (see ~/.token). Please store this in a secret!
+    # Default: 
+    latch-token: ''
+
+    # Set up the ~/.ssh directory.
+    # Default: true
+    ssh-config: ''
+
+    # Register repository workflow code to Latch. Visit docs.latch.bio to learn more.
+    # Default: false
+    register: ''
+
+    # The relative path to the root of the package to register
+    # Default: .
+    register-pkg-root: ''
+
+    # Use a remote server to build workflow.
+    # Default: true
+    register-remote: ''
+
+    # Whether to automatically bump the version of the workflow each time register is
+    # called.
+    # Default: false
+    register-disable-auto-version: ''
+
+    # Whether the workflow should fail if the worfklow is already registered.
+    # Default: false
+    already-registered-do-not-fail: ''
+```
+
+### Outputs
+
+There are currently no outputs
+
+<!-- end usage -->
