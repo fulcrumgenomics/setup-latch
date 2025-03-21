@@ -1,0 +1,37 @@
+name: "Test the docs"
+
+on:
+  push:
+  workflow_call:
+
+jobs:
+  build:  
+    name: Test the docs
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20.x
+      - uses: actions/checkout@v4
+      - run: npm ci
+      - run: npm run build
+      - run: npm run format-check
+      - run: npm run lint
+      - name: Verify no unstaged changes
+        shell: bash
+        run: |
+          if [[ "$(git status --porcelain)" != "" ]]; then
+            echo ----------------------------------------
+            echo git status
+            echo ----------------------------------------
+            git status
+            echo ----------------------------------------
+            echo git diff
+            echo ----------------------------------------
+            git diff
+            echo ----------------------------------------
+            echo Troubleshooting
+            echo ----------------------------------------
+            echo "::error::Unstaged changes detected. Locally try running: git clean -ffdx && npm ci && npm run format && npm run build"
+            exit 1
+          fi

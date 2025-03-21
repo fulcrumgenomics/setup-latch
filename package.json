@@ -1,0 +1,38 @@
+{
+  "name": "setup-latch",
+  "version": "2.0.0",
+  "description": "setup-latch",
+  "scripts": {
+    "build": "tsc && node lib/generate-docs.js",
+    "format": "prettier --write '**/*.ts'",
+    "format-check": "prettier --check '**/*.ts'",
+    "lint": "eslint src/*.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fulcrumgenomics/setup-latch.git"
+  },
+  "keywords": [
+    "github",
+    "git",
+    "merge-base"
+  ],
+  "author": "@nh13",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/fulcrumgenomics/setup-latch/issues"
+  },
+  "homepage": "https://github.com/fulcrumgenomics/setup-latch#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "@types/node": "^22.13.8",
+    "@typescript-eslint/eslint-plugin": "^7.9.0",
+    "@typescript-eslint/parser": "^7.9.0",
+    "@vercel/ncc": "^0.38.1",
+    "eslint": "^8.57.0",
+    "eslint-plugin-github": "^5.1.8",
+    "js-yaml": "^4.1.0",
+    "prettier": "^3.5.3",
+    "typescript": "^5.8.2"
+  }
+}
