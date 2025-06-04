@@ -39,6 +39,10 @@ inputs:
     description: "Whether to automatically bump the version of the workflow each time register is called."
     required: false
     default: false
+  register-snakefile:
+    description: "Path to the Snakefile (for Snakemake) to register"
+    required: false
+    default: ""
   already-registered-do-not-fail:
     description: "Whether the workflow should fail if the worfklow is already registered."
     required: false
@@ -149,6 +153,9 @@ runs:
           fi
           if [ "${{ inputs.mark-as-release }}" == "true" ]; then
             args="--mark-as-release ${args}"
+          fi
+          if [ "${{ inputs.register-snakefile }}" != "" ]; then
+            args="--snakefile ${{ inputs.register-snakefile }} ${args}"
           fi
           latch register --yes ${args} 2>&1 | tee register.log
           # save registered version; this may not occur if the above register fails
