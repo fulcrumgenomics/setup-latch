@@ -132,6 +132,11 @@ jobs:
     # 'true').
     # Default: false
     mark-as-release: ''
+
+    # Whether to skip installing the latch CLI. If true, the latch CLI must be
+    # available via the shell (bash).
+    # Default: false
+    skip-install: ''
 ```
 
 ### Outputs

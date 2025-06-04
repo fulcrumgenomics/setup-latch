@@ -47,6 +47,10 @@ inputs:
     description: "Whether to mark the registered workflow as a release (must set `register` to 'true')."
     required: false
     default: false
+  skip-install:
+    description: "Whether to skip installing the latch CLI.  If true, the latch CLI must be available via the shell (bash)."
+    required: false
+    default: false
 
 outputs:
   latch-version:
@@ -104,6 +108,7 @@ runs:
         echo "::endgroup::"
     - id: install-latch
       name: Install Latch
+      if: ${{ inputs.skip-install == 'false' }}
       shell: bash
       run: |
         echo "::group::Installing latch...🚦"
