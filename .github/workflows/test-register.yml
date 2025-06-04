@@ -172,3 +172,52 @@ jobs:
             echo "Error: mark-as-release without register did not fail";
             exit 1;
           fi
+
+      # Tests skipping the latch install succeeds when latch is available on the PATH
+      - name: update wf version
+        run: echo "$(git rev-parse HEAD)-1" > ./tests/test-setup-latch-register/version
+      - id: skip-install-success
+        name: test skipping latch install
+        uses: ./
+        with:
+          latch-workspace: ${{ secrets.LATCH_WORKSPACE }}
+          latch-token: ${{ secrets.LATCH_TOKEN }}
+          register-pkg-root: ./tests/test-setup-latch-register
+          skip-install: true
+      - name: Print outputs
+        shell: bash
+        run: |
+          echo latch-version: ${{ steps.skip-install-success.outputs.latch-version }}
+          echo register-version: ${{ steps.skip-install-success.outputs.register-version }}
+          echo already-registered: ${{ steps.skip-install-success.outputs.already-registered }}
+      - name: check success
+        shell: bash
+        run: |
+          if [[ "${{ steps.skip-install-success.outcome }}" != "success" ]]; then
+            echo "Error: workflow failed";
+            exit 1;
+          fi
+
+      # Tests skipping the latch install fails when latch is not available on the PATH
+      - name: update wf version
+        run: echo "$(git rev-parse HEAD)-1" > ./tests/test-setup-latch-register/version
+      - name: uninstall latch
+        shell: bash
+        run: |
+          python3 -m pip uninstall --yes latch
+      - id: skip-install-failure
+        name: test skipping latch install fails when latch is not available on the PATH
+        continue-on-error: true
+        uses: ./
+        with:
+          latch-workspace: ${{ secrets.LATCH_WORKSPACE }}
+          latch-token: ${{ secrets.LATCH_TOKEN }}
+          register-pkg-root: ./tests/test-setup-latch-register
+          skip-install: true
+      - name: check failure
+        shell: bash
+        run: |
+          if [[ "${{ steps.skip-install-failure.outcome }}" != "failure" ]]; then
+            echo "Error: workflow succeeded";
+            exit 1;
+          fi
