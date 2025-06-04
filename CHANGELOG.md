@@ -1,5 +1,19 @@
 # CHANGELOG
 
+## [v2.1.0] (2025-06-04)
+
+- [#33] add an option to mark the registered version as release
+- [#35] add an option to skip install latch with pip 
+- [#32] fix link to the logo in the README
+- [#32] fix the release workflow 
+- [#31] add a GHA workflow to keep the readme up-to-date
+- [#30] add a release workflow (#30)
+- adding back in missing commits from v1.1.0
+  - [#18] Support registering a Snakefile for Snakemake
+  - [#18] Fix disabling the auto version register option
+
+[v2.1.0]: https://github.com/fulcrumgenomics/setup-latch/releases/tag/v2.1.0
+
 ## [v2.0.0] (2025-03-18)
 
 This release provides upport for latch 2.57.2 and later.  Earlier releases of latch may work, but are unsupported.

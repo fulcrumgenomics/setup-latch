@@ -124,6 +124,10 @@ jobs:
     # Default: false
     register-disable-auto-version: ''
 
+    # Path to the Snakefile (for Snakemake) to register
+    # Default: 
+    register-snakefile: ''
+
     # Whether the workflow should fail if the worfklow is already registered.
     # Default: false
     already-registered-do-not-fail: ''
