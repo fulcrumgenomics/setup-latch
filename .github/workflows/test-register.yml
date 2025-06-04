@@ -125,3 +125,50 @@ jobs:
             echo "Error: registration existing workflow did not fail with 'already-registered-do-not-fail: false'";
             exit 1;
           fi
+
+      # Tests register with mark-as-release
+      - name: update wf version
+        run: echo "$(git rev-parse HEAD)-1" > ./tests/test-setup-latch-register/version
+      - id: register-with-mark-as-release
+        name: test register with mark-as-release
+        uses: ./
+        with:
+          register: true
+          latch-workspace: ${{ secrets.LATCH_WORKSPACE }}
+          latch-token: ${{ secrets.LATCH_TOKEN }}
+          register-pkg-root: ./tests/test-setup-latch-register
+          already-registered-do-not-fail: true
+          mark-as-release: true
+      - name: Print outputs
+        shell: bash
+        run: |
+          echo latch-version: ${{ steps.register-with-mark-as-release.outputs.latch-version }}
+          echo register-version: ${{ steps.register-with-mark-as-release.outputs.register-version }}
+          echo already-registered: ${{ steps.register-with-mark-as-release.outputs.already-registered }}
+      - name: check success
+        shell: bash
+        run: |
+          if [[ "${{ steps.register-with-mark-as-release.outcome }}" != "success" ]]; then
+            echo "Error: workflow failed";
+            exit 1;
+          fi
+
+      # Tests mark-as-release without register should fail
+      - name: update wf version
+        run: echo "$(git rev-parse HEAD)-1" > ./tests/test-setup-latch-register/version
+      - id: mark-as-release-without-register
+        name: test mark-as-release without register should fail
+        continue-on-error: true
+        uses: ./
+        with:
+          latch-workspace: ${{ secrets.LATCH_WORKSPACE }}
+          latch-token: ${{ secrets.LATCH_TOKEN }}
+          register-pkg-root: ./tests/test-setup-latch-register
+          already-registered-do-not-fail: true
+          mark-as-release: true
+      - name: check mark-as-release without register failure
+        run: |
+          if [[ "${{ steps.mark-as-release-without-register.outcome }}" != "failure" ]]; then
+            echo "Error: mark-as-release without register did not fail";
+            exit 1;
+          fi

@@ -127,6 +127,11 @@ jobs:
     # Whether the workflow should fail if the worfklow is already registered.
     # Default: false
     already-registered-do-not-fail: ''
+
+    # Whether to mark the registered workflow as a release (must set `register` to
+    # 'true').
+    # Default: false
+    mark-as-release: ''
 ```
 
 ### Outputs

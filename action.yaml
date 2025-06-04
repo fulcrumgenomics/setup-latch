@@ -43,6 +43,10 @@ inputs:
     description: "Whether the workflow should fail if the worfklow is already registered."
     required: false
     default: false
+  mark-as-release:
+    description: "Whether to mark the registered workflow as a release (must set `register` to 'true')."
+    required: false
+    default: false
 
 outputs:
   latch-version:
@@ -62,6 +66,13 @@ runs:
       shell: bash
       run: |
         cat ${GITHUB_ACTION_PATH}/banner.txt
+    - id: check-mark-as-release
+      name: Check register and mark-as-release 
+      if: ${{ inputs.register == 'false' && inputs.mark-as-release == 'true' }}
+      shell: bash
+      run: |
+        echo '`register` must be `true` when mark-as-release is `true`'
+        exit 1;
     - id: setup-ssh-config
       name: Setup SSH Config
       if: ${{ inputs.ssh-config == 'true' }}
@@ -130,6 +141,9 @@ runs:
           fi
           if [ "${{ inputs.register-register-disable-auto-version }}" == "true" ]; then
             args="--register-disable-auto-version ${args}"
+          fi
+          if [ "${{ inputs.mark-as-release }}" == "true" ]; then
+            args="--mark-as-release ${args}"
           fi
           latch register --yes ${args} 2>&1 | tee register.log
           # save registered version; this may not occur if the above register fails
