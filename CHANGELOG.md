@@ -16,7 +16,7 @@ This release provides upport for latch 2.57.2 and later.  Earlier releases of la
 
 * [24] update location of the banner
 
-[v1.1.1]: https://github.com/fulcrumgenomics/setup-latch/releases/tag/v1.1.1
+[v1.1.2]: https://github.com/fulcrumgenomics/setup-latch/releases/tag/v1.1.2
 
 ## [v1.1.1] (2025-03-18)
 
@@ -28,7 +28,8 @@ This release provides upport for latch 2.57.2 and later.  Earlier releases of la
 
 ## [v1.1.0] (2024-05-20)
 
-* [#18] Support snakemake and fix disable auto version
+- [#18] Support registering a Snakefile for Snakemake
+- [#18] Fix disabling the auto version register option
 
 [v1.1.0]: https://github.com/fulcrumgenomics/setup-latch/releases/tag/v1.1.0
 
