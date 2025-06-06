@@ -1,5 +1,12 @@
 # CHANGELOG
 
+
+## [v2.2.0] (2025-06-04)
+
+- [#36] add an option to specify the path or alias to the latch command 
+
+[v2.2.0]: https://github.com/fulcrumgenomics/setup-latch/releases/tag/v2.2.0
+
 ## [v2.1.0] (2025-06-04)
 
 - [#33] add an option to mark the registered version as release
