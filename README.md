@@ -95,6 +95,11 @@ jobs:
     # Default: latest
     latch-version: ''
 
+    # The path to or alias for the latch command. Otherwise, `latch` must be on the
+    # PATH.
+    # Default: latch
+    latch-command: ''
+
     # Workspace id (see ~/.latch/workspace), typically numeric.
     # Default: 
     latch-workspace: ''
