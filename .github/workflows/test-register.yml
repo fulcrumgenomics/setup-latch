@@ -21,6 +21,7 @@ jobs:
     name: "Test: latch register"
     environment: github-actions-register
     steps:
+
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
@@ -28,10 +29,10 @@ jobs:
       - id: install
         name: Install Latch
         uses: ./
-
-      # Tests vanilla register
       - name: update wf version
         run: echo "$(git rev-parse HEAD)-1" > ./tests/test-setup-latch-register/version
+
+      # Tests vanilla register
       - id: latch
         name: test remote registration succeeds
         uses: ./
@@ -58,8 +59,6 @@ jobs:
       # FIXME: update this test when https://github.com/latchbio/latch/issues/534 is fixed
       # Tests using register-remote false
       # FIXME: uncomment me when local registration works
-      #- name: update wf version
-      #  run: echo "$(git rev-parse HEAD)-2" > ./tests/test-setup-latch-register/version
       - id: register-remote
         name: test local registration fails
         # FIXME: remove me when local registration works
@@ -127,8 +126,6 @@ jobs:
           fi
 
       # Tests register with mark-as-release
-      - name: update wf version
-        run: echo "$(git rev-parse HEAD)-1" > ./tests/test-setup-latch-register/version
       - id: register-with-mark-as-release
         name: test register with mark-as-release
         uses: ./
@@ -154,8 +151,6 @@ jobs:
           fi
 
       # Tests mark-as-release without register should fail
-      - name: update wf version
-        run: echo "$(git rev-parse HEAD)-1" > ./tests/test-setup-latch-register/version
       - id: mark-as-release-without-register
         name: test mark-as-release without register should fail
         continue-on-error: true
@@ -174,8 +169,6 @@ jobs:
           fi
 
       # Tests skipping the latch install succeeds when latch is available on the PATH
-      - name: update wf version
-        run: echo "$(git rev-parse HEAD)-1" > ./tests/test-setup-latch-register/version
       - id: skip-install-success
         name: test skipping latch install
         uses: ./
@@ -199,8 +192,6 @@ jobs:
           fi
 
       # Tests skipping the latch install fails when latch is not available on the PATH
-      - name: update wf version
-        run: echo "$(git rev-parse HEAD)-1" > ./tests/test-setup-latch-register/version
       - name: uninstall latch
         shell: bash
         run: |
@@ -221,3 +212,48 @@ jobs:
             echo "Error: workflow succeeded";
             exit 1;
           fi
+      - name: reinstall latch
+        shell: bash
+        run: |
+          python3 -m pip install latch
+
+      # Tests specifying a different latch command 
+      - name: move the latch executable
+        id: latch-command-move
+        shell: bash
+        run: |
+          latch_src=$(which latch)
+          latch_dst=$(which latch).moved
+          mv -v "${latch_src}" "${latch_dst}"
+          echo "latch-src=${latch_src}" >> $GITHUB_OUTPUT;
+          echo "latch-dst=${latch_dst}" >> $GITHUB_OUTPUT;
+      - id: latch-diff-command
+        name: test different latch command
+        uses: ./
+        with:
+          register: true
+          latch-workspace: ${{ secrets.LATCH_WORKSPACE }}
+          latch-token: ${{ secrets.LATCH_TOKEN }}
+          register-pkg-root: ./tests/test-setup-latch-register
+          skip-install: true
+          latch-command: ${{ steps.latch-command-move.outputs.latch-dst }}
+          already-registered-do-not-fail: true
+      - name: Print outputs
+        shell: bash
+        run: |
+          echo latch-version: ${{ steps.latch-diff-command.outputs.latch-version }}
+          echo register-version: ${{ steps.latch-diff-command.outputs.register-version }}
+          echo already-registered: ${{ steps.latch-diff-command.outputs.already-registered }}
+      - name: check success
+        shell: bash
+        run: |
+          if [[ "${{ steps.latch-diff-command.outcome }}" != "success" ]]; then
+            echo "Error: workflow failed";
+            exit 1;
+          fi
+      - name: move the latch executable back
+        shell: bash
+        run: |
+          latch_src="${{ steps.latch-command-move.outputs.latch-src }}";
+          latch_dst="${{ steps.latch-command-move.outputs.latch-dst }}";
+          mv -v "${latch_dst}" "${latch_src}";

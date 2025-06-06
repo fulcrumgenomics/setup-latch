@@ -11,6 +11,10 @@ inputs:
     description: 'The version of latch to install (see https://pypi.org/project/latch/).'
     required: false
     default: "latest"
+  latch-command:
+    description: 'The path to or alias for the latch command.  Otherwise, `latch` must be on the PATH.'
+    required: false
+    default: "latch"
   latch-workspace:
     description: 'Workspace id (see ~/.latch/workspace), typically numeric.'
     required: false
@@ -127,7 +131,7 @@ runs:
       shell: bash
       run: |
         echo "::group::Getting installed latch version...🚦"
-        LATCH_VERSION=$(latch --version | cut -f 3 -d ' ')
+        LATCH_VERSION=$(${{ inputs.latch-command }} --version | cut -f 3 -d ' ')
         echo "latch-version=${LATCH_VERSION}" >> $GITHUB_OUTPUT
         echo "latch version: ${LATCH_VERSION}"
         echo "::endgroup::"
@@ -157,7 +161,7 @@ runs:
           if [ "${{ inputs.register-snakefile }}" != "" ]; then
             args="--snakefile ${{ inputs.register-snakefile }} ${args}"
           fi
-          latch register --yes ${args} 2>&1 | tee register.log
+          ${{ inputs.latch-command }} register --yes ${args} 2>&1 | tee register.log
           # save registered version; this may not occur if the above register fails
           register_version=$(grep "Registering" register.log | tail -1 | awk '{print $NF}' | cut -f 2 -d ':')
           echo "register-version=${register_version}" >> $GITHUB_OUTPUT
